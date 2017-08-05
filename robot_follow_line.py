@@ -9,7 +9,17 @@
 
 enable_lens_corr = True # turn on for straighter lines...
 
-import sensor, image, time
+import sensor, image, time, math
+
+# xc is openmv camera coordinate system on X axis
+# yc is openmv camera coordinate system on Y axis
+# xn is openmv NED coordinate system on X axis
+# yn is openmv NED coordinate system on Y axis
+# phi is openmv camera coordinate system rotate phi(radians) around the Z axis to NED coordinate system
+def cam_rotation_ned(xc,yc,phi):
+    xn = xc * math.cos(phi) - yc * math.sin(phi)
+    yn = xc * math.sin(phi) + yc * math.cos(phi)
+    return (xn,yn)
 
 sensor.reset()
 sensor.set_pixformat(sensor.RGB565) # grayscale is faster
